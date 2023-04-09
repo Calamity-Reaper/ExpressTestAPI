@@ -8,27 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = void 0;
-const express_1 = __importDefault(require("express"));
-class App {
-    constructor(logger) {
-        this.app = (0, express_1.default)();
-        this.port = 8000;
-        this.logger = logger;
-    }
-    useRoutes() {
-        this.app.use('/users', () => { });
-    }
-    init() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.useRoutes();
-            this.server = this.app.listen(this.port);
-            this.logger.log(`Server started on http://localhost:${this.port}`);
-        });
-    }
+const app_1 = require("./app");
+const logger_service_1 = require("./logger/logger.service");
+function bootstrap() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const app = new app_1.App(new logger_service_1.LoggerService());
+        yield app.init();
+    });
 }
-exports.App = App;
+bootstrap();
