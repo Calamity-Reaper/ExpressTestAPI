@@ -6,7 +6,9 @@ import { ILogger } from './logger/logger.interface';
 import { Container, ContainerModule, interfaces } from 'inversify';
 import { TYPES } from './types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
-import { IUsersController } from './users/users.controller.interface';
+import { IUsersController } from './users/interfaces/users.controller.interface';
+import { IUserService } from './users/interfaces/users.service.interface';
+import { UsersService } from './users/users.service';
 
 export interface IBootstrapReturn {
 	app: App;
@@ -17,6 +19,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<ILogger>(TYPES.ILogger).to(LoggerService);
 	bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
 	bind<IUsersController>(TYPES.UsersController).to(UsersController);
+	bind<IUserService>(TYPES.UsersService).to(UsersService);
 	bind<App>(TYPES.Application).to(App);
 });
 
