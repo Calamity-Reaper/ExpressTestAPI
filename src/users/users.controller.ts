@@ -23,6 +23,7 @@ export class UsersController extends BaseController implements IUsersController 
 				method: 'post',
 				path: '/login',
 				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
 			},
 			{
 				method: 'post',
@@ -33,9 +34,16 @@ export class UsersController extends BaseController implements IUsersController 
 		]);
 	}
 
-	login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
-		// this.ok(res, "login");
-		next(new HTTPError(401, 'Auth error', 'login'));
+	async login(
+		{ body }: Request<{}, {}, UserLoginDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
+		const user = await this.userService.validateUser(body);
+		if (!user) {
+			return next(new HTTPError(422, 'Incorrect email or password'));
+		}
+		this.ok(res, { email: user.email, name: user.name, id: user.id });
 	}
 
 	async register(
