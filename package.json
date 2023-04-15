@@ -12,6 +12,7 @@
     "lint:fix": "eslint ./src/** --fix",
     "generate": "prisma generate",
     "test": "jest",
+    "test:e2e": "jest --config jest.e2e.config.ts --coverage",
     "build": "tsc"
   },
   "author": "Illia Kokhanovskiy",

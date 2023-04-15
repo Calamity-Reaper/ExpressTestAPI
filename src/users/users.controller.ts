@@ -51,7 +51,7 @@ export class UsersController extends BaseController implements IUsersController 
 	): Promise<void> {
 		const user = await this.userService.validateUser(body);
 		if (!user) {
-			return next(new HTTPError(422, 'Incorrect email or password'));
+			return next(new HTTPError(401, 'Incorrect email or password', 'login'));
 		}
 		const jwt = await this.signJWT(user.email, this.configService.get('SECRET'));
 		this.ok(res, { email: user.email, name: user.name, id: user.id, jwt: jwt });
